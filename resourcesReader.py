@@ -1,4 +1,5 @@
 from asyncio.windows_events import NULL
+from operator import truediv
 from time import sleep
 import psutil
 import math
@@ -17,6 +18,20 @@ def find_procs_by_name(name):
         if p.info['name'] == name:
             ls.append(p)
     return ls
+
+def isProcessRunning(name):
+    procs = find_procs_by_name(name)
+    
+    isRunning = False
+    
+    for proc in procs:
+        if proc.status() == psutil.STATUS_RUNNING:
+            isRunning = True
+            break
+        
+    print("\n========== Process is Running? ["+str(isRunning)+"] ==========")
+        
+    return isRunning
 
 def convert_size(size_bytes):
    if size_bytes == 0:
@@ -43,7 +58,6 @@ def getUsedSpace(paths):
     print("\n\ntotal size ==>: "+str(convert_size(totalSize)))
     
     print("============================")
-    
 
 def monitorProcess(process_name):
     
@@ -87,5 +101,7 @@ while True:
     monitorProcess(process_name)
 
     getUsedSpace(_paths)
+    
+    isProcessRunning(process_name)
     
     sleep(1)
