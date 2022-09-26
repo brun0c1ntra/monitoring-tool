@@ -1,5 +1,3 @@
-from asyncio.windows_events import NULL
-from operator import truediv
 from time import sleep
 import psutil
 import math
@@ -13,19 +11,19 @@ _paths = [
 
 def find_procs_by_name(name):
     "Return a list of processes matching 'name'."
-    ls = []
-    for p in psutil.process_iter(['name']):
-        if p.info['name'] == name:
-            ls.append(p)
-    return ls
+    processes = []
+    for process in psutil.process_iter(['name']):
+        if process.info['name'] == name:
+            processes.append(process)
+    return processes
 
 def isProcessRunning(name):
-    procs = find_procs_by_name(name)
+    processes = find_procs_by_name(name)
     
     isRunning = False
     
-    for proc in procs:
-        if proc.status() == psutil.STATUS_RUNNING:
+    for process in processes:
+        if process.status() == psutil.STATUS_RUNNING:
             isRunning = True
             break
         
